@@ -3,498 +3,343 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Ant and Laddu — Ganita Prakash Grade 8</title>
+<title>Ant &amp; Laddu — Ch. 11</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Mono:wght@400;500;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f5f4f0;--surface:#ffffff;--surface2:#f0ede8;
-  --border:#d8d4cc;--text:#1a1814;--text2:#5a5650;--text3:#9a958e;
-  --accent:#c0392b;--blue:#2c7be5;--green:#1a7a4a;
-  --font:'DM Sans',-apple-system,sans-serif;
-  --mono:'DM Mono',ui-monospace,monospace;
+  --bg:#0f0d0b;--surface:#181512;--surface2:#201d18;
+  --chalk:#f0ece3;--chalk2:#b8b2a7;--chalk3:#716b62;--rule:#2a2520;
+  --blue:#6ba3d6;--green:#5dbf8a;--amber:#e8a840;--red:#e07070;
+  --display:'Playfair Display',Georgia,serif;
+  --mono:'DM Mono',monospace;--body:'DM Sans',sans-serif;
 }
-body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;line-height:1.5}
-.page{max-width:900px;margin:0 auto;padding:32px 24px}
-.label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
-.title{font-size:22px;font-weight:700;margin-bottom:6px}
-.subtitle{font-size:14px;color:var(--text2);margin-bottom:24px;max-width:600px;line-height:1.55}
-.card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:24px;margin-bottom:20px}
-.card-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:16px}
+html,body{background:var(--bg);color:var(--chalk)}
+body{font-family:var(--body);min-height:100vh;-webkit-font-smoothing:antialiased;padding:0}
 
-.scenario-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
-.sc-btn{padding:7px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-weight:500;color:var(--text2);background:var(--surface);cursor:pointer;font-family:var(--font);transition:all .12s}
-.sc-btn.active{background:var(--text);color:#fff;border-color:var(--text)}
+/* HEADER */
+.header{padding:20px 24px 16px;border-bottom:1px solid var(--rule)}
+.chap-tag{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--chalk3);margin-bottom:7px}
+.main-title{font-family:var(--display);font-size:clamp(28px,7vw,56px);font-weight:900;
+  line-height:.95;color:var(--chalk)}
+.main-title em{font-style:italic;color:var(--amber)}
+.subtitle{font-family:var(--mono);font-size:12px;color:var(--chalk3);margin-top:8px;
+  max-width:540px;line-height:1.65}
 
-/* Two-panel: 3D view + net view */
-.panels{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
-@media(max-width:580px){.panels{grid-template-columns:1fr}}
-.panel{background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:16px}
-.panel-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:12px}
-canvas{display:block;width:100%}
+/* SCENARIO BAR */
+.sc-bar{padding:12px 24px;border-bottom:1px solid var(--rule);background:var(--surface);
+  display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.sc-lbl{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--chalk3);flex-shrink:0;margin-right:4px}
+.sc-btn{padding:6px 14px;border:1px solid var(--chalk3);background:transparent;
+  font-family:var(--mono);font-size:11px;font-weight:600;color:var(--chalk3);
+  cursor:pointer;transition:all .12s;-webkit-tap-highlight-color:transparent}
+.sc-btn:hover{border-color:var(--chalk);color:var(--chalk)}
+.sc-btn.active{background:var(--chalk);color:var(--bg);border-color:var(--chalk)}
 
-/* Unfolding selector */
-.unfold-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
-.unfold-row label{font-size:13px;color:var(--text2);font-weight:500}
-.btn{padding:8px 16px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-weight:500;color:var(--text);background:var(--surface);cursor:pointer;font-family:var(--font);transition:all .12s}
-.btn:hover{border-color:var(--text)}
-.btn.active-unfold{border-color:var(--blue);color:var(--blue);background:#f0f5ff}
+/* UNFOLD BAR */
+.uf-bar{padding:10px 24px;border-bottom:1px solid var(--rule);
+  display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.uf-lbl{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--chalk3);flex-shrink:0;margin-right:4px}
+.uf-btn{padding:6px 13px;border:1px solid var(--rule);background:transparent;
+  font-family:var(--mono);font-size:11px;font-weight:600;color:var(--chalk3);
+  cursor:pointer;transition:all .12s;-webkit-tap-highlight-color:transparent}
+.uf-btn:hover{border-color:var(--chalk3)}
+.uf-btn.active{border-color:var(--blue);color:var(--blue)}
 
-/* Result display */
-.result-strip{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
-.res-item{background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;min-width:150px}
-.res-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);margin-bottom:3px}
-.res-val{font-family:var(--mono);font-size:20px;font-weight:600;color:var(--text)}
-.res-val.best{color:var(--green)}
-.res-val.longer{color:var(--accent)}
+/* PANELS */
+.panels{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--rule)}
+@media(max-width:560px){.panels{grid-template-columns:1fr}}
+.panel{display:flex;flex-direction:column;border-right:1px solid var(--rule)}
+.panel:last-child{border-right:none}
+.panel-head{padding:10px 16px;font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--chalk3);border-bottom:1px solid var(--rule)}
+canvas.panel-cvs{display:block;width:100%;cursor:grab;background:var(--bg)}
+canvas.panel-cvs:active{cursor:grabbing}
 
-.insight{background:#fff8f0;border:1.5px solid #f0d8c0;border-radius:10px;padding:14px 18px;font-size:13.5px;color:#6b4400;line-height:1.6;margin-top:16px}
-.insight strong{color:#a05000}
-.insight .eq{font-family:var(--mono);font-size:13px;display:block;margin:3px 0}
+/* RESULTS */
+.results-strip{padding:14px 24px;border-bottom:1px solid var(--rule);
+  display:flex;gap:10px;flex-wrap:wrap}
+.res-card{padding:12px 16px;border:1px solid var(--rule);background:var(--surface);flex:1;min-width:120px}
+.rc-lbl{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--chalk3);margin-bottom:4px}
+.rc-val{font-family:var(--display);font-size:clamp(20px,4vw,32px);letter-spacing:.02em;line-height:1}
+.rc-val.best{color:var(--green)}
+.rc-val.other{color:var(--chalk2)}
+.rc-note{font-family:var(--mono);font-size:10px;color:var(--green);margin-top:3px}
+
+/* FORMULA STRIP */
+.formula-strip{padding:14px 24px;background:var(--surface);border-bottom:1px solid var(--rule);
+  font-family:var(--mono);font-size:12px;color:var(--chalk2);line-height:1.9}
+.fs-hl{color:var(--amber);font-weight:600}
+.fs-green{color:var(--green)}
+
+/* INSIGHT */
+.insight-row{padding:16px 24px;display:grid;grid-template-columns:3px 1fr;gap:14px}
+.ins-bar{background:var(--amber)}
+.ins-text{font-size:13px;line-height:1.75;color:var(--chalk2)}
+.ins-text strong{color:var(--chalk)}
 </style>
 </head>
 <body>
-<div class="page">
-  <div class="label">Chapter 4 · Exploring Some Geometric Themes</div>
-  <div class="title">Ant and Laddu</div>
-  <div class="subtitle">An ant on a cuboid wants to reach a laddu — also on the cuboid — by the shortest surface path. The key insight: unfold the cuboid into a net and the shortest path becomes a straight line.</div>
 
-  <div class="card">
-    <div class="card-title">Choose a scenario</div>
-    <div class="scenario-row">
-      <button class="sc-btn active" id="sc0">Scenario A (textbook, 4×4×8)</button>
-      <button class="sc-btn" id="sc1">Scenario B (6×12×30)</button>
-      <button class="sc-btn" id="sc2">Scenario C (3×4×5)</button>
-    </div>
+<div class="header">
+  <div class="chap-tag">Ch. 11 · 3D Shapes &amp; Nets</div>
+  <div class="main-title">Ant &amp; <em>Laddu</em></div>
+  <div class="subtitle">An ant wants to reach a laddu on a cuboid by the shortest surface path. Unfold the cuboid — the shortest path becomes a straight line on the net.</div>
+</div>
 
-    <div class="unfold-row">
-      <label>Unfolding:</label>
-      <button class="btn active-unfold" id="u0">Unfold 1</button>
-      <button class="btn" id="u1">Unfold 2</button>
-      <button class="btn" id="u2">Unfold 3</button>
-    </div>
+<div class="sc-bar">
+  <span class="sc-lbl">Scenario</span>
+  <button class="sc-btn active" id="sc0">4×4×8 cm</button>
+  <button class="sc-btn" id="sc1">6×12×30 cm</button>
+  <button class="sc-btn" id="sc2">3×4×5 cm</button>
+</div>
 
-    <div class="panels">
-      <div class="panel">
-        <div class="panel-title">Cuboid (3D view)</div>
-        <canvas id="cvsBox" height="240" style="cursor:grab"></canvas>
-      </div>
-      <div class="panel">
-        <div class="panel-title">Net (path as straight line)</div>
-        <canvas id="cvsNet" height="240"></canvas>
-      </div>
-    </div>
+<div class="uf-bar">
+  <span class="uf-lbl">Unfolding</span>
+  <button class="uf-btn active" id="u0">Unfold 1</button>
+  <button class="uf-btn" id="u1">Unfold 2</button>
+  <button class="uf-btn" id="u2">Unfold 3</button>
+</div>
 
-    <div class="result-strip" id="resultStrip"></div>
-    <div class="insight" id="insight"></div>
+<div class="panels">
+  <div class="panel">
+    <div class="panel-head">Cuboid — drag to rotate</div>
+    <canvas class="panel-cvs" id="cvs-box" height="240"></canvas>
+  </div>
+  <div class="panel">
+    <div class="panel-head">Net — path as straight line</div>
+    <canvas class="panel-cvs" id="cvs-net" height="240" style="cursor:default"></canvas>
   </div>
 </div>
 
+<div class="results-strip" id="results-strip"></div>
+<div class="formula-strip" id="formula-strip"></div>
+
+<div class="insight-row">
+  <div class="ins-bar"></div>
+  <p class="ins-text">Unfold the cuboid into a flat net. On a flat surface, the shortest path between two points is always a <strong>straight line</strong>. Different ways of unfolding give different straight-line lengths — you must check all valid unfoldings to find the true minimum.</p>
+</div>
+
 <script>
-// Scenarios: [w, h, d, ant face, ant pos (frac), laddu face, laddu pos (frac)]
-// Each scenario has 3 unfoldings with different net arrangements
-const SCENARIOS = [
-  {
-    label: '4 × 4 × 8 cm cuboid (textbook)',
-    w: 4, h: 4, d: 8,
-    ant: { face: 'front', pos: [0.5, 0.5] },   // centre of front face
-    laddu: { face: 'top', pos: [0.5, 0.5] },   // centre of top face
-    unfoldings: [
-      { label: 'Unfold top upward', route: [[4, 0], [4, 4], [4, 8]], d: Math.sqrt(4*4+8*8) },
-      { label: 'Unfold via right side', route: [[0, 0], [4, 4], [8, 4]], d: Math.sqrt((4+4)**2+4*4) },
-      { label: 'Unfold via left side', route: [[0, 0], [-4, 4], [0, 8]], d: Math.sqrt(4*4+(4+4)**2) },
-    ]
-  },
-  {
-    label: '6 × 12 × 30 cm cuboid (textbook)',
-    w: 12, h: 6, d: 30,
-    ant: { face: 'front', pos: [0.5, 0.5] },
-    laddu: { face: 'back', pos: [0.5, 0.5] },
-    unfoldings: [
-      { label: 'Route over top', route: 'top', dExact: null, dims: [12+30+12, 6] },
-      { label: 'Route over right side', route: 'right', dExact: 40, dims: [24, 32] },
-      { label: 'Route over bottom', route: 'bottom', dExact: null, dims: [12+30+12, 6] },
-    ]
-  },
-  {
-    label: '3 × 4 × 5 cm cuboid',
-    w: 3, h: 4, d: 5,
-    ant: { face: 'front', pos: [0.5, 0.5] },
-    laddu: { face: 'top', pos: [0.5, 0.5] },
-    unfoldings: [
-      { label: 'Unfold top upward', route: 'up', dims: [3, 4+5] },
-      { label: 'Unfold via side', route: 'side', dims: [3+5, 4] },
-      { label: 'Unfold via bottom', route: 'bottom', dims: [3, 4+5] },
-    ]
-  }
+let scIdx=0,unIdx=0,boxRy=30,boxRx=15;
+
+const SCENARIOS=[
+  {label:'4×4×8 cm',w:4,h:4,d:8},
+  {label:'6×12×30 cm',w:12,h:6,d:30},
+  {label:'3×4×5 cm',w:3,h:4,d:5},
 ];
 
-let scIdx = 0;
-let unIdx = 0;
-let boxRy = 0, boxRx = 0;
-
-function drawBox3D(canvas, sc) {
-  const PR = window.devicePixelRatio || 1;
-  const W = canvas.parentElement.clientWidth - 32;
-  canvas.width = W * PR; canvas.height = 240 * PR;
-  canvas.style.width = W + 'px'; canvas.style.height = '240px';
-  const ctx = canvas.getContext('2d');
-  ctx.scale(PR, PR);
-  ctx.fillStyle = '#fafaf8';
-  ctx.fillRect(0, 0, W, 240);
-
-  // Isometric-style box
-  const cx = W / 2, cy = 140;
-  const scale = Math.min(W / 5, 50);
-  const { w, h, d } = sc;
-  const sw = w * scale / Math.max(w, h, d) * 2.5;
-  const sh = h * scale / Math.max(w, h, d) * 2.5;
-  const sd = d * scale / Math.max(w, h, d) * 2.5;
-  // Apply drag rotation to the offset angle
-  const ryRad = boxRy * Math.PI / 180;
-  const rxFactor = 1 - Math.abs(boxRx) * 0.01;
-  const ox = sd * 0.6 * Math.cos(ryRad), oy = sd * (0.35 + boxRx * 0.008);
-
-  // Back face
-  ctx.fillStyle = '#d0dce8';
-  ctx.beginPath();
-  ctx.moveTo(cx - sw/2 + ox, cy - sh/2 - oy);
-  ctx.lineTo(cx + sw/2 + ox, cy - sh/2 - oy);
-  ctx.lineTo(cx + sw/2 + ox, cy + sh/2 - oy);
-  ctx.lineTo(cx - sw/2 + ox, cy + sh/2 - oy);
-  ctx.closePath(); ctx.fill();
-
-  // Top face
-  ctx.fillStyle = '#e8f0f8';
-  ctx.beginPath();
-  ctx.moveTo(cx - sw/2, cy - sh/2);
-  ctx.lineTo(cx - sw/2 + ox, cy - sh/2 - oy);
-  ctx.lineTo(cx + sw/2 + ox, cy - sh/2 - oy);
-  ctx.lineTo(cx + sw/2, cy - sh/2);
-  ctx.closePath(); ctx.fill();
-
-  // Front face
-  ctx.fillStyle = '#f0f5fc';
-  ctx.beginPath();
-  ctx.moveTo(cx - sw/2, cy - sh/2);
-  ctx.lineTo(cx + sw/2, cy - sh/2);
-  ctx.lineTo(cx + sw/2, cy + sh/2);
-  ctx.lineTo(cx - sw/2, cy + sh/2);
-  ctx.closePath(); ctx.fill();
-
-  // Edges
-  ctx.strokeStyle = '#5a8aaa';
-  ctx.lineWidth = 1.5;
-  const pts = {
-    fbl: [cx - sw/2, cy + sh/2], fbr: [cx + sw/2, cy + sh/2],
-    ftl: [cx - sw/2, cy - sh/2], ftr: [cx + sw/2, cy - sh/2],
-    bbl: [cx - sw/2 + ox, cy + sh/2 - oy], bbr: [cx + sw/2 + ox, cy + sh/2 - oy],
-    btl: [cx - sw/2 + ox, cy - sh/2 - oy], btr: [cx + sw/2 + ox, cy - sh/2 - oy],
+function getUnfoldings(sc){
+  const{w,h,d}=sc;
+  // Each unfolding is a list of faces {x,y,W,H,color,label}
+  // plus ant and laddu positions
+  // Ant: centre of front face, Laddu: centre of top face
+  const configs={
+    0:[
+      {faces:[{x:0,y:h,w,h,c:'#2a4a80aa',l:'front'},{x:0,y:0,w,h,c:'#3a7040aa',l:'top'},{x:0,y:2*h,w,h,c:'#705020aa',l:'bottom'},{x:w,y:h,w:d,h,c:'#503080aa',l:'right'}],ant:{x:w/2,y:h+h/2},lad:{x:w/2,y:h/2}},
+      {faces:[{x:0,y:0,w,h,c:'#2a4a80aa',l:'front'},{x:w,y:0,w:d,h,c:'#3a7040aa',l:'right'},{x:w+d,y:0,w,h,c:'#705020aa',l:'back'},{x:0,y:-h,w,h,c:'#503080aa',l:'top'}],ant:{x:w/2,y:h/2},lad:{x:w/2,y:-h/2}},
+      {faces:[{x:d,y:0,w,h,c:'#2a4a80aa',l:'front'},{x:0,y:0,w:d,h,c:'#3a7040aa',l:'left'},{x:d,y:-h,w,h,c:'#705020aa',l:'top'},{x:d,y:h,w,h,c:'#503080aa',l:'bottom'}],ant:{x:d+w/2,y:h/2},lad:{x:d+w/2,y:-h/2}},
+    ],
+    1:[
+      {faces:[{x:0,y:d,w:w,h,c:'#2a4a80aa',l:'front'},{x:0,y:0,w:w,h:d,c:'#3a7040aa',l:'top'},{x:0,y:d+h,w:w,h,c:'#705020aa',l:'bottom (path)'}],ant:{x:w/2,y:d+h/2},lad:{x:w/2,y:d+h+h/2}},
+      {faces:[{x:0,y:0,w:w,h,c:'#2a4a80aa',l:'front'},{x:w,y:0,w:d,h,c:'#3a7040aa',l:'right'},{x:w+d,y:0,w:w,h,c:'#705020aa',l:'back'}],ant:{x:w/2,y:h/2},lad:{x:w+d+w/2,y:h/2}},
+      {faces:[{x:0,y:0,w:w,h,c:'#2a4a80aa',l:'front'},{x:0,y:-d,w:w,h:d,c:'#3a7040aa',l:'top'},{x:0,y:h,w:w,h,c:'#705020aa',l:'back (via bottom)'}],ant:{x:w/2,y:h/2},lad:{x:w/2,y:h+h/2}},
+    ],
+    2:[
+      {faces:[{x:0,y:0,w,h:h,c:'#2a4a80aa',l:'front'},{x:0,y:-d,w,h:d,c:'#3a7040aa',l:'top'}],ant:{x:w/2,y:h/2},lad:{x:w/2,y:-d/2}},
+      {faces:[{x:0,y:0,w,h:h,c:'#2a4a80aa',l:'front'},{x:w,y:0,w:d,h:h,c:'#3a7040aa',l:'right'},{x:w+d,y:-d,w,h:d,c:'#705020aa',l:'top'}],ant:{x:w/2,y:h/2},lad:{x:w+d+w/2,y:-d/2}},
+      {faces:[{x:0,y:0,w,h:h,c:'#2a4a80aa',l:'front'},{x:0,y:h,w,h:d,c:'#3a7040aa',l:'bottom'},{x:0,y:h+d,w,h:h,c:'#705020aa',l:'back'},{x:0,y:h+d+h,w,h:d,c:'#80402080',l:'top (back)'},{x:0,y:h+d+2*h,w,h:h,c:'#3a704080',l:'top dest.'}],ant:{x:w/2,y:h/2},lad:{x:w/2,y:h+d+2*h+h/2}},
+    ],
   };
-  const edges = [
-    [pts.fbl, pts.fbr],[pts.fbr, pts.ftr],[pts.ftr, pts.ftl],[pts.ftl, pts.fbl],
-    [pts.fbl, pts.bbl],[pts.fbr, pts.bbr],[pts.ftr, pts.btr],[pts.ftl, pts.btl],
-    [pts.bbl, pts.bbr],[pts.bbr, pts.btr],[pts.btr, pts.btl],
-  ];
-  edges.forEach(([a, b]) => {
-    ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
-  });
-  ctx.setLineDash([4, 3]);
-  ctx.strokeStyle = '#aaa';
-  ctx.beginPath(); ctx.moveTo(pts.bbl[0], pts.bbl[1]); ctx.lineTo(pts.btl[0], pts.btl[1]); ctx.stroke();
+  return configs[scIdx]||configs[0];
+}
+
+function getNetConfig(sc,ui){
+  const cfgs=getUnfoldings(sc);
+  const cfg=cfgs[Math.min(ui,cfgs.length-1)];
+  // normalise coords
+  const minX=Math.min(...cfg.faces.map(f=>f.x));
+  const minY=Math.min(...cfg.faces.map(f=>f.y));
+  const faces=cfg.faces.map(f=>({...f,x:f.x-minX,y:f.y-minY}));
+  const ant={x:cfg.ant.x-minX,y:cfg.ant.y-minY};
+  const lad={x:cfg.lad.x-minX,y:cfg.lad.y-minY};
+  const totalW=Math.max(...faces.map(f=>f.x+f.w));
+  const totalH=Math.max(...faces.map(f=>f.y+f.h));
+  return{faces,ant,lad,totalW,totalH};
+}
+
+function getDist(sc,ui){
+  const n=getNetConfig(sc,ui);
+  return Math.sqrt((n.lad.x-n.ant.x)**2+(n.lad.y-n.ant.y)**2);
+}
+
+function drawBox(sc){
+  const cvs=document.getElementById('cvs-box');
+  const PR=Math.min(window.devicePixelRatio||1,2);
+  const W=cvs.parentElement.clientWidth;
+  const H=240;
+  cvs.width=W*PR;cvs.height=H*PR;cvs.style.width=W+'px';cvs.style.height=H+'px';
+  const ctx=cvs.getContext('2d');
+  ctx.scale(PR,PR);
+  ctx.fillStyle='#0f0d0b';ctx.fillRect(0,0,W,H);
+
+  const{w,h,d}=sc;
+  const cx=W/2,cy=H/2;
+  const maxD=Math.max(w,h,d);
+  const sc2=Math.min(W,H)*0.25/maxD;
+  const sw=w*sc2,sh=h*sc2,sd=d*sc2;
+
+  const ryR=boxRy*Math.PI/180,rxR=boxRx*Math.PI/180;
+  const ox=sd*0.6*Math.cos(ryR);
+  const oy=sd*0.35*Math.sin(rxR+0.3);
+
+  // Faces
+  const drawFace=(pts,fill)=>{
+    ctx.beginPath();pts.forEach(([x,y],i)=>i===0?ctx.moveTo(x,y):ctx.lineTo(x,y));
+    ctx.closePath();ctx.fillStyle=fill;ctx.fill();
+    ctx.strokeStyle='rgba(107,163,214,.4)';ctx.lineWidth=1;ctx.stroke();
+  };
+  const L=cx-sw/2,R=cx+sw/2,T=cy-sh/2,B=cy+sh/2;
+  drawFace([[L,B],[R,B],[R,T],[L,T]],'rgba(107,163,214,.25)'); // front
+  drawFace([[L,T],[R,T],[R+ox,T-oy],[L+ox,T-oy]],'rgba(93,191,138,.2)'); // top
+  drawFace([[R,B],[R+ox,B-oy],[R+ox,T-oy],[R,T]],'rgba(232,168,64,.18)'); // right
+  // Dashed back edges
+  ctx.setLineDash([4,3]);ctx.strokeStyle='rgba(107,163,214,.2)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(L+ox,B-oy);ctx.lineTo(R+ox,B-oy);ctx.lineTo(R+ox,T-oy);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(L,B);ctx.lineTo(L+ox,B-oy);ctx.stroke();
   ctx.setLineDash([]);
 
-  // Ant and laddu dots
-  const antX = cx - sw/2 + sw * 0.5, antY = cy + sh/2 - sh * 0.5;
-  ctx.beginPath(); ctx.fillStyle = '#1a7a4a'; ctx.arc(antX, antY, 7, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = '#fff'; ctx.font = 'bold 10px DM Sans'; ctx.textAlign = 'center';
-  ctx.fillText('A', antX, antY + 4);
+  // A = ant (centre of front face)
+  const ax=cx,ay=cy;
+  ctx.beginPath();ctx.arc(ax,ay,8,0,Math.PI*2);
+  ctx.fillStyle='#5dbf8a';ctx.fill();
+  ctx.fillStyle='#0f0d0b';ctx.font='bold 10px DM Mono';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('A',ax,ay);ctx.textBaseline='alphabetic';
 
-  const ladX = cx, ladY = cy - sh/2;
-  ctx.beginPath(); ctx.fillStyle = '#c0392b'; ctx.arc(ladX, ladY, 7, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = '#fff'; ctx.fillText('L', ladX, ladY + 4);
+  // L = laddu (centre of top face)
+  const lx=cx+(ox/2),ly=cy-sh/2-oy/2;
+  ctx.beginPath();ctx.arc(lx,ly,8,0,Math.PI*2);
+  ctx.fillStyle='#e8a840';ctx.fill();
+  ctx.fillStyle='#0f0d0b';ctx.font='bold 10px DM Mono';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('L',lx,ly);ctx.textBaseline='alphabetic';
 
   // Labels
-  ctx.fillStyle = '#5a5650'; ctx.font = '11px DM Sans'; ctx.textAlign = 'left';
-  ctx.fillText(`${w} × ${h} × ${d} cm`, 8, 20);
-  ctx.fillStyle = '#1a7a4a'; ctx.fillText('A = Ant', 8, 230);
-  ctx.fillStyle = '#c0392b'; ctx.textAlign = 'right';
-  ctx.fillText('L = Laddu', W - 8, 230);
+  ctx.fillStyle='rgba(240,236,227,.4)';ctx.font='11px DM Mono';ctx.textAlign='left';
+  ctx.fillText(`${w}×${h}×${d} cm`,8,18);
+  ctx.fillStyle='#5dbf8a';ctx.fillText('A = Ant',8,H-10);
+  ctx.fillStyle='#e8a840';ctx.textAlign='right';ctx.fillText('L = Laddu',W-8,H-10);
 }
 
-function drawNet(canvas, sc, unIdx) {
-  const PR = window.devicePixelRatio || 1;
-  const W = canvas.parentElement.clientWidth - 32;
-  canvas.width = W * PR; canvas.height = 240 * PR;
-  canvas.style.width = W + 'px'; canvas.style.height = '240px';
-  const ctx = canvas.getContext('2d');
-  ctx.scale(PR, PR);
-  ctx.fillStyle = '#fafaf8';
-  ctx.fillRect(0, 0, W, 240);
+function drawNet(sc,ui){
+  const cvs=document.getElementById('cvs-net');
+  const PR=Math.min(window.devicePixelRatio||1,2);
+  const W=cvs.parentElement.clientWidth;
+  const H=240;
+  cvs.width=W*PR;cvs.height=H*PR;cvs.style.width=W+'px';cvs.style.height=H+'px';
+  const ctx=cvs.getContext('2d');
+  ctx.scale(PR,PR);
+  ctx.fillStyle='#0f0d0b';ctx.fillRect(0,0,W,H);
 
-  const { w, h, d } = sc;
-  // Compute scale to fit in canvas
-  const nets = getUnfolding(sc, unIdx);
-  const netW = nets.totalW, netH = nets.totalH;
-  const margin = 20;
-  const scale = Math.min((W - 2*margin) / netW, (240 - 2*margin) / netH);
-  const ox = (W - netW * scale) / 2, oy = (240 - netH * scale) / 2;
+  const n=getNetConfig(sc,ui);
+  const margin=20;
+  const scale=Math.min((W-2*margin)/n.totalW,(H-2*margin)/n.totalH);
+  const ox=(W-n.totalW*scale)/2,oy=(H-n.totalH*scale)/2;
+  const px=x=>ox+x*scale, py=y=>oy+y*scale;
 
-  function px(x) { return ox + x * scale; }
-  function py(y) { return oy + y * scale; }
-
-  // Draw faces
-  nets.faces.forEach(f => {
-    ctx.fillStyle = f.color || '#dce8f5';
-    ctx.fillRect(px(f.x), py(f.y), f.w * scale, f.h * scale);
-    ctx.strokeStyle = '#5a8aaa';
-    ctx.lineWidth = 1.5;
-    ctx.strokeRect(px(f.x), py(f.y), f.w * scale, f.h * scale);
-    if (f.label) {
-      ctx.fillStyle = '#5a5650';
-      ctx.font = '10px DM Sans';
-      ctx.textAlign = 'center';
-      ctx.fillText(f.label, px(f.x + f.w / 2), py(f.y + f.h / 2) + 4);
+  n.faces.forEach(f=>{
+    ctx.fillStyle=f.c||'rgba(107,163,214,.3)';
+    ctx.fillRect(px(f.x),py(f.y),f.w*scale,f.h*scale);
+    ctx.strokeStyle='rgba(107,163,214,.5)';ctx.lineWidth=1;
+    ctx.strokeRect(px(f.x),py(f.y),f.w*scale,f.h*scale);
+    if(f.l){
+      ctx.fillStyle='rgba(240,236,227,.5)';ctx.font='10px DM Mono';ctx.textAlign='center';
+      ctx.fillText(f.l,px(f.x+f.w/2),py(f.y+f.h/2)+4);
     }
   });
 
-  // Draw straight-line path
-  const ant = nets.ant, lad = nets.laddu;
-  ctx.beginPath();
-  ctx.strokeStyle = '#e08020';
-  ctx.lineWidth = 2;
-  ctx.setLineDash([6, 4]);
-  ctx.moveTo(px(ant.x), py(ant.y));
-  ctx.lineTo(px(lad.x), py(lad.y));
-  ctx.stroke();
-  ctx.setLineDash([]);
-
-  // Endpoints
-  ctx.beginPath(); ctx.fillStyle = '#1a7a4a'; ctx.arc(px(ant.x), py(ant.y), 7, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = '#fff'; ctx.font = 'bold 10px DM Sans'; ctx.textAlign = 'center';
-  ctx.fillText('A', px(ant.x), py(ant.y) + 4);
-
-  ctx.beginPath(); ctx.fillStyle = '#c0392b'; ctx.arc(px(lad.x), py(lad.y), 7, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = '#fff'; ctx.fillText('L', px(lad.x), py(lad.y) + 4);
+  // Path
+  const ax=px(n.ant.x),ay=py(n.ant.y),lx=px(n.lad.x),ly=py(n.lad.y);
+  ctx.strokeStyle='#e8a840';ctx.lineWidth=2;ctx.setLineDash([6,4]);
+  ctx.beginPath();ctx.moveTo(ax,ay);ctx.lineTo(lx,ly);ctx.stroke();ctx.setLineDash([]);
 
   // Distance label
-  const dx = lad.x - ant.x, dy = lad.y - ant.y;
-  const dist = Math.sqrt(dx*dx + dy*dy);
-  const mx = (ant.x + lad.x) / 2, my = (ant.y + lad.y) / 2;
-  ctx.fillStyle = '#a05000';
-  ctx.font = 'bold 11px DM Mono';
-  ctx.textAlign = 'center';
-  ctx.fillText(dist.toFixed(2) + ' cm', px(mx), py(my) - 10);
-}
+  const dist=getDist(sc,ui);
+  const mx=(ax+lx)/2,my=(ay+ly)/2;
+  ctx.fillStyle='var(--amber,#e8a840)';ctx.fillStyle='#e8a840';
+  ctx.font='bold 11px DM Mono';ctx.textAlign='center';
+  ctx.fillText(dist.toFixed(2)+' cm',mx,my-10);
 
-function getUnfolding(sc, ui) {
-  const { w, h, d } = sc;
-  if (scIdx === 0) {
-    // 4×4×8: ant centre of front face, laddu centre of top face
-    const configs = [
-      // Unfold top upward over front
-      {
-        totalW: w + d, totalH: h + h,
-        faces: [
-          { x: 0, y: 0, w: w, h: h, color: '#dce8f5', label: 'front' },
-          { x: w, y: 0, w: d, h: h, color: '#f0dce8', label: 'right' },
-          { x: 0, y: -h, w: w, h: h, color: '#dcf0dc', label: 'top' },
-          { x: 0, y: h, w: w, h: h, color: '#f0f0dc', label: 'bottom' },
-        ],
-        ant: { x: w * 0.5, y: h * 0.5 },
-        laddu: { x: w * 0.5, y: -h * 0.5 },
-      },
-      // Unfold over right
-      {
-        totalW: w + d, totalH: h + h,
-        faces: [
-          { x: 0, y: 0, w: w, h: h, color: '#dce8f5', label: 'front' },
-          { x: w, y: 0, w: d, h: h, color: '#f0dce8', label: 'right' },
-          { x: w + d, y: 0, w: w, h: h, color: '#dcf0dc', label: 'back' },
-          { x: 0, y: -h, w: w, h: h, color: '#dcf0dc', label: 'top (right)' },
-        ],
-        ant: { x: w * 0.5, y: h * 0.5 },
-        laddu: { x: w * 0.5, y: -h * 0.5 },
-      },
-      // Unfold upward via left
-      {
-        totalW: d + w, totalH: h + h,
-        faces: [
-          { x: d, y: 0, w: w, h: h, color: '#dce8f5', label: 'front' },
-          { x: 0, y: 0, w: d, h: h, color: '#f0dce8', label: 'left' },
-          { x: d, y: -h, w: w, h: h, color: '#dcf0dc', label: 'top' },
-        ],
-        ant: { x: d + w * 0.5, y: h * 0.5 },
-        laddu: { x: d + w * 0.5, y: -h * 0.5 },
-      }
-    ];
-    // Offset so all coords positive
-    const cfg = configs[ui];
-    const minX = Math.min(...cfg.faces.map(f => f.x));
-    const minY = Math.min(...cfg.faces.map(f => f.y));
-    cfg.faces.forEach(f => { f.x -= minX; f.y -= minY; });
-    cfg.ant.x -= minX; cfg.ant.y -= minY;
-    cfg.laddu.x -= minX; cfg.laddu.y -= minY;
-    cfg.totalW = Math.max(...cfg.faces.map(f => f.x + f.w));
-    cfg.totalH = Math.max(...cfg.faces.map(f => f.y + f.h));
-    return cfg;
-  }
-
-  if (scIdx === 1) {
-    // 12×6×30 ant front centre, laddu back centre
-    const configs = [
-      {
-        faces: [
-          { x: 0, y: 0, w: 12, h: 6, color: '#dce8f5', label: 'front' },
-          { x: 0, y: -6, w: 12, h: 30, color: '#f0dce8', label: 'top' },
-          { x: 0, y: -36, w: 12, h: 6, color: '#dcf0dc', label: 'back' },
-        ],
-        ant: { x: 6, y: 3 }, laddu: { x: 6, y: -33 },
-      },
-      {
-        faces: [
-          { x: 0, y: 0, w: 12, h: 6, color: '#dce8f5', label: 'front' },
-          { x: 12, y: 0, w: 30, h: 6, color: '#f0dce8', label: 'right' },
-          { x: 42, y: 0, w: 12, h: 6, color: '#dcf0dc', label: 'back' },
-        ],
-        ant: { x: 6, y: 3 }, laddu: { x: 48, y: 3 },
-      },
-      {
-        faces: [
-          { x: 0, y: 0, w: 12, h: 6, color: '#dce8f5', label: 'front' },
-          { x: 0, y: 6, w: 12, h: 30, color: '#f0dce8', label: 'bottom' },
-          { x: 0, y: 36, w: 12, h: 6, color: '#dcf0dc', label: 'back' },
-        ],
-        ant: { x: 6, y: 3 }, laddu: { x: 6, y: 39 },
-      }
-    ];
-    const cfg = configs[ui];
-    const minX = Math.min(...cfg.faces.map(f => f.x));
-    const minY = Math.min(...cfg.faces.map(f => f.y));
-    cfg.faces.forEach(f => { f.x -= minX; f.y -= minY; });
-    cfg.ant.x -= minX; cfg.ant.y -= minY;
-    cfg.laddu.x -= minX; cfg.laddu.y -= minY;
-    cfg.totalW = Math.max(...cfg.faces.map(f => f.x + f.w));
-    cfg.totalH = Math.max(...cfg.faces.map(f => f.y + f.h));
-    return cfg;
-  }
-
-  // Scenario 3: 3×4×5
-  const configs = [
-    {
-      faces: [
-        { x: 0, y: 0, w: 3, h: 4, color: '#dce8f5', label: 'front' },
-        { x: 0, y: -5, w: 3, h: 5, color: '#dcf0dc', label: 'top' },
-      ],
-      ant: { x: 1.5, y: 2 }, laddu: { x: 1.5, y: -2.5 },
-    },
-    {
-      faces: [
-        { x: 0, y: 0, w: 3, h: 4, color: '#dce8f5', label: 'front' },
-        { x: 3, y: 0, w: 5, h: 4, color: '#f0dce8', label: 'right' },
-        { x: -5, y: 0, w: 5, h: 4, color: '#f0dce8', label: 'left' },
-      ],
-      ant: { x: 1.5, y: 2 }, laddu: { x: -2.5, y: 2 },
-    },
-    {
-      faces: [
-        { x: 0, y: 0, w: 3, h: 4, color: '#dce8f5', label: 'front' },
-        { x: 0, y: 4, w: 3, h: 5, color: '#f0f0dc', label: 'bottom' },
-        { x: 0, y: -5, w: 3, h: 5, color: '#dcf0dc', label: 'top' },
-      ],
-      ant: { x: 1.5, y: 2 }, laddu: { x: 1.5, y: -2.5 },
-    }
-  ];
-  const cfg = configs[ui];
-  const minX = Math.min(...cfg.faces.map(f => f.x));
-  const minY = Math.min(...cfg.faces.map(f => f.y));
-  cfg.faces.forEach(f => { f.x -= minX; f.y -= minY; });
-  cfg.ant.x -= minX; cfg.ant.y -= minY;
-  cfg.laddu.x -= minX; cfg.laddu.y -= minY;
-  cfg.totalW = Math.max(...cfg.faces.map(f => f.x + f.w));
-  cfg.totalH = Math.max(...cfg.faces.map(f => f.y + f.h));
-  return cfg;
-}
-
-function computeAllDistances(sc) {
-  return [0, 1, 2].map(ui => {
-    const net = getUnfolding(sc, ui);
-    const dx = net.laddu.x - net.ant.x, dy = net.laddu.y - net.ant.y;
-    return Math.sqrt(dx * dx + dy * dy);
+  // Dots
+  [{x:ax,y:ay,c:'#5dbf8a',t:'A'},{x:lx,y:ly,c:'#e8a840',t:'L'}].forEach(({x,y,c,t})=>{
+    ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fillStyle=c;ctx.fill();
+    ctx.fillStyle='#0f0d0b';ctx.font='bold 9px DM Mono';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(t,x,y);ctx.textBaseline='alphabetic';
   });
 }
 
-function renderResults() {
-  const sc = SCENARIOS[scIdx];
-  const dists = computeAllDistances(sc);
-  const minD = Math.min(...dists);
-  const strip = document.getElementById('resultStrip');
-  strip.innerHTML = '';
-  dists.forEach((d, i) => {
-    const div = document.createElement('div');
-    div.className = 'res-item';
-    const isBest = Math.abs(d - minD) < 0.01;
-    div.innerHTML = `<div class="res-label">Unfolding ${i + 1}</div>
-      <div class="res-val ${isBest ? 'best' : 'longer'}">${d.toFixed(2)} cm${isBest ? ' (shortest)' : ''}</div>`;
+function renderResults(){
+  const sc=SCENARIOS[scIdx];
+  const dists=[0,1,2].map(i=>getDist(sc,i));
+  const minD=Math.min(...dists);
+  const strip=document.getElementById('results-strip');
+  strip.innerHTML='';
+  dists.forEach((d,i)=>{
+    const best=Math.abs(d-minD)<0.01;
+    const div=document.createElement('div');div.className='res-card';
+    div.innerHTML=`<div class="rc-lbl">Unfolding ${i+1}</div>
+      <div class="rc-val ${best?'best':'other'}">${d.toFixed(2)} cm</div>
+      ${best?'<div class="rc-note">← shortest</div>':''}`;
     strip.appendChild(div);
   });
-
-  const ins = document.getElementById('insight');
-  if (scIdx === 1) {
-    ins.innerHTML = `<strong>Key insight (textbook scenario B):</strong> The path via the <strong>right side</strong> gives distance 40 cm.
-      <span style="font-family:var(--mono);display:block;margin:4px 0">d² = 24² + 32² = 576 + 1024 = 1600, so d = 40 cm</span>
-      Different unfoldings give different path lengths. You must try all valid unfoldings to be sure you have found the true shortest path. The straight line on the net is guaranteed to be the shortest path on that particular unfolding — but another unfolding might give a shorter total.`;
-  } else {
-    ins.innerHTML = `<strong>Key insight:</strong> Unfold the cuboid into a flat net. The shortest surface path becomes a straight line on the net, because straight lines are the shortest paths on flat surfaces. Different ways of unfolding give different path lengths — always check all unfoldings to find the true minimum. Shortest path here: <strong>${minD.toFixed(2)} cm</strong>.`;
-  }
+  const minD2=dists[unIdx];
+  const el=document.getElementById('formula-strip');
+  const n=getNetConfig(sc,unIdx);
+  const dx=n.lad.x-n.ant.x,dy=n.lad.y-n.ant.y;
+  el.innerHTML=
+    `Unfolding ${unIdx+1}: ant at (${n.ant.x.toFixed(1)}, ${n.ant.y.toFixed(1)}),  laddu at (${n.lad.x.toFixed(1)}, ${n.lad.y.toFixed(1)})\n`+
+    `d = √(Δx² + Δy²) = √(${dx.toFixed(1)}² + ${dy.toFixed(1)}²) = √${(dx*dx+dy*dy).toFixed(0)} = <span class="fs-hl">${minD2.toFixed(2)} cm</span>\n`+
+    `Shortest of all three unfoldings: <span class="fs-green">${Math.min(...dists).toFixed(2)} cm</span>`;
 }
 
-function redraw() {
-  const sc = SCENARIOS[scIdx];
-  const boxCvs = document.getElementById('cvsBox');
-  const netCvs = document.getElementById('cvsNet');
-  drawBox3D(boxCvs, sc);
-  drawNet(netCvs, sc, unIdx);
-  renderResults();
+function redraw(){
+  const sc=SCENARIOS[scIdx];
+  drawBox(sc);drawNet(sc,unIdx);renderResults();
 }
 
-[0, 1, 2].forEach(i => {
-  document.getElementById('sc' + i).onclick = () => {
-    scIdx = i; unIdx = 0;
-    document.querySelectorAll('.sc-btn').forEach((b, j) => b.classList.toggle('active', j === i));
-    document.querySelectorAll('[id^=u]').forEach((b, j) => b.classList.toggle('active-unfold', j === 0));
+[0,1,2].forEach(i=>{
+  document.getElementById('sc'+i).addEventListener('click',()=>{
+    scIdx=i;unIdx=0;
+    document.querySelectorAll('.sc-btn').forEach((b,j)=>b.classList.toggle('active',j===i));
+    document.querySelectorAll('.uf-btn').forEach((b,j)=>b.classList.toggle('active',j===0));
     redraw();
-  };
-  document.getElementById('u' + i).onclick = () => {
-    unIdx = i;
-    document.querySelectorAll('[id^=u]').forEach((b, j) => b.classList.toggle('active-unfold', j === i));
+  });
+  document.getElementById('u'+i).addEventListener('click',()=>{
+    unIdx=i;
+    document.querySelectorAll('.uf-btn').forEach((b,j)=>b.classList.toggle('active',j===i));
     redraw();
-  };
+  });
 });
 
-
-// Drag to rotate 3D box
+// Box drag
 (function(){
-  const el = document.getElementById('cvsBox');
-  let dragging=false, lastX=0, lastY=0;
-  function start(x,y){ dragging=true; lastX=x; lastY=y; el.style.cursor='grabbing'; }
-  function move(x,y){
-    if(!dragging)return;
-    boxRy += (x-lastX)*0.5;
-    boxRx = Math.max(-30, Math.min(30, boxRx - (y-lastY)*0.3));
-    lastX=x; lastY=y;
-    drawBox3D(el, SCENARIOS[scIdx]);
-  }
-  el.addEventListener('mousedown',e=>{ e.preventDefault(); start(e.clientX,e.clientY); });
-  document.addEventListener('mousemove',e=>move(e.clientX,e.clientY));
-  document.addEventListener('mouseup',()=>{ dragging=false; el.style.cursor='grab'; });
-  el.addEventListener('touchstart',e=>{ e.preventDefault(); start(e.touches[0].clientX,e.touches[0].clientY); },{passive:false});
-  el.addEventListener('touchmove',e=>{ e.preventDefault(); move(e.touches[0].clientX,e.touches[0].clientY); },{passive:false});
-  document.addEventListener('touchend',()=>{ dragging=false; });
+  const el=document.getElementById('cvs-box');
+  let drag=false,lx=0,ly=0;
+  el.addEventListener('pointerdown',e=>{e.preventDefault();drag=true;lx=e.clientX;ly=e.clientY;el.style.cursor='grabbing';});
+  document.addEventListener('pointermove',e=>{
+    if(!drag)return;boxRy+=(e.clientX-lx)*0.5;
+    boxRx=Math.max(-30,Math.min(30,boxRx-(e.clientY-ly)*0.3));
+    lx=e.clientX;ly=e.clientY;drawBox(SCENARIOS[scIdx]);
+  });
+  document.addEventListener('pointerup',()=>{drag=false;el.style.cursor='grab';});
 })();
 
-window.addEventListener('resize', redraw);
+window.addEventListener('resize',redraw);
 redraw();
 </script>
 </body>
